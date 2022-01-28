@@ -16,24 +16,8 @@ class CreateCompaniesTable extends Migration
         Schema::create('companies', static function (Blueprint $table): void {
             $table->id();
             $table->string('name', 255);
-        });
-
-        Schema::create('company_user', static function (Blueprint $table): void {
-            $table
-                ->foreignId('user_id')
-                ->references('id')
-                ->on('users')
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
-            $table
-                ->foreignId('company_id')
-                ->references(
-                    'id'
-                )->on('companies')
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
-
-            $table->primary(['user_id', 'company_id']);
+            $table->string('address', 255);
+            $table->string('email', 255);
         });
     }
 
@@ -45,6 +29,5 @@ class CreateCompaniesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('companies');
-        Schema::dropIfExists('company_user');
     }
 }
