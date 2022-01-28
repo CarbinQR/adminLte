@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.theme.dark-theme-layout')
 
 @section('content')
 <div class="container">
