@@ -22,18 +22,8 @@ final class StoreCompanyAction
         $company->email = $request->getCompanyEmail();
         $company->address = $request->getCompanyAddress();
 
-        $company = $this->companyRepositoryInterface->store($company);
-
-        if($request->getCustomersIdsArray()) {
-            $customersIdsArray = [];
-
-            foreach ($request->getCustomersIdsArray() as $customerId){
-                $customersIdsArray[] = (int) $customerId;
-            }
-
-            $company->customers()->attach($customersIdsArray);
-        }
-
-        return new StoreCompanyResponse($company);
+        return new StoreCompanyResponse(
+            $this->companyRepositoryInterface->store($company)
+        );
     }
 }

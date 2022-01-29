@@ -58,8 +58,7 @@ final class CompanyController extends Controller
             new StoreCompanyRequest(
                 $request->input('name'),
                 $request->input('email'),
-                $request->input('address'),
-                $request->input('customersIdsArray'),
+                $request->input('address')
             )
         )->getResponse();
 
