@@ -15,7 +15,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Company::factory(11000)->create();
-        Customer::factory(15000)->create();
+         Company::factory(11000)->create()->each(function ($company) {
+            $company->customers()->attach(
+                Customer::factory(10)->create()->pluck('id')->toArray()
+            );
+        });
     }
 }
