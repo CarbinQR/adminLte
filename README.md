@@ -2,5 +2,5 @@
 
 В каталоге adminlte выполнить 
 `composer install`
-`npm tun dev`
+`npm run dev`
 `docker compose up -d`
