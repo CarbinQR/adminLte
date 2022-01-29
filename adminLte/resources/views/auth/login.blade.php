@@ -1,4 +1,4 @@
-@extends('layouts.theme.dark-theme-layout')
+@extends('layouts.theme.default-theme-layout')
 
 @section('content')
 <div class="container">

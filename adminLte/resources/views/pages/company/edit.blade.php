@@ -8,6 +8,20 @@
     <form class="form-horizontal" method="POST" action="{{ route('companyUpdate', $company->id) }}">
         @csrf
         @method('PUT')
+        @if($errors->any())
+            @foreach($errors->all() as $error)
+                <div class="alert alert-danger" role="alert">
+                    {{ $error }}
+                </div>
+            @endforeach
+        @endif
+
+        @if(session('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session()->get('success') }}
+            </div>
+        @endif
+        <input type="text" name="id" hidden value="{{ $company->id }}">
         <div class="card card-default">
             <div class="card-header">
                 <h3 class="card-title">Редaктирвоание компании: {{ $company->name }}</h3>

@@ -15,14 +15,21 @@ use App\Actions\Web\Company\UpdateCompanyAction;
 use App\Actions\Web\Company\UpdateCompanyRequest;
 use App\Actions\Web\Customer\GetCustomersListAction;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Company\AttachCustomersToCompanyValidationRequest;
+use App\Http\Requests\Company\StoreCompanyValidationRequest;
+use App\Http\Requests\Company\UpdateCompanyValidationRequest;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
-class CompanyController extends Controller
+final class CompanyController extends Controller
 {
     public function index(
         GetCompaniesListAction $companyListAction,
         GetCustomersListAction $customersListAction
-    ) {
+    ): Factory|View|Application
+    {
         $companiesList = $companyListAction
             ->execute()
             ->getResponse();
@@ -37,7 +44,7 @@ class CompanyController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(): Factory|View|Application
     {
         return view('pages.company.create');
 
@@ -45,7 +52,7 @@ class CompanyController extends Controller
 
     public function store(
         StoreCompanyAction $storeCompanyAction,
-        Request $request)
+        StoreCompanyValidationRequest $request): RedirectResponse
     {
         $storeCompanyAction->execute(
             new StoreCompanyRequest(
@@ -62,66 +69,70 @@ class CompanyController extends Controller
     public function show(
         ShowCompanyAction $showCompanyAction,
         string $id
-    ) {
+    ): Factory|View|Application
+    {
         $company = $showCompanyAction->execute(
             new ShowCompanyRequest(
-                (int) $id
+                (int)$id
             )
         )->getResponse();
 
-        return view('pages.company.show', [ 'company' => $company]);
+        return view('pages.company.show', ['company' => $company]);
     }
 
     public function edit(
         ShowCompanyAction $showCompanyAction,
         string $id
-    ) {
+    ): Factory|View|Application
+    {
         $company = $showCompanyAction->execute(
             new ShowCompanyRequest(
-                (int) $id
+                (int)$id
             )
         )->getResponse();
 
-        return view('pages.company.edit', [ 'company' => $company]);
+        return view('pages.company.edit', ['company' => $company]);
     }
 
     public function update(
-        Request $request,
+        UpdateCompanyValidationRequest $request,
         UpdateCompanyAction $updateCompanyAction
-    ) {
+    ): RedirectResponse
+    {
         $updatedCompany = $updateCompanyAction
             ->execute(
                 new UpdateCompanyRequest(
-                    (int) $request->id,
+                    (int)$request->id,
                     $request->input('name'),
                     $request->input('email'),
-                    $request->input('address'),
-                    $request->input('customersIdsArray')
+                    $request->input('address')
                 )
             )->getResponse();
 
         return redirect()
             ->route('companyEdit', ['id' => $updatedCompany->id])
-            ->with(['success' => 'Запись обновлена']);
+            ->with([session('success') => 'Запись обновлена']);
     }
 
     public function destroy(
         DestroyCompanyAction $destroyCompanyAction,
         string $id
-    ) {
+    ): RedirectResponse
+    {
         $destroyCompanyAction->execute(
             new DestroyCompanyRequest(
                 (int)$id
             )
         );
 
-        return redirect()->back()->with(['succes' => 'Удалено']);
+        return redirect()->back()->with([session('success') => 'Удалено']);
     }
 
     public function attachCustomers(
         AttachCustomersToCompanyAction $attachCustomersToCompanyAction,
-        Request $request
-    ) {
+        AttachCustomersToCompanyValidationRequest $request
+    ): RedirectResponse
+    {
         $attachCustomersToCompanyAction->execute(
             new AttachCustomersToCompanyRequest(
                 (int)$request->id,
@@ -129,6 +140,6 @@ class CompanyController extends Controller
             )
         );
 
-        return redirect()->back()->with(['succes' => 'Пользователи добавлены']);
+        return redirect()->back()->with([session('success') => 'Пользователи добавлены']);
     }
 }

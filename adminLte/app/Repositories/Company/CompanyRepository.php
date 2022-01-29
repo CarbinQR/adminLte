@@ -4,11 +4,12 @@ namespace App\Repositories\Company;
 
 use App\Constant\CompanyConstant;
 use App\Models\Company;
+use App\Models\Customer;
 use http\Exception\InvalidArgumentException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 
-class CompanyRepository implements CompanyRepositoryInterface
+final class CompanyRepository implements CompanyRepositoryInterface
 {
     public function getAll(): LengthAwarePaginator
     {
@@ -43,6 +44,17 @@ class CompanyRepository implements CompanyRepositoryInterface
         return $company;
     }
 
+    public function findCompaniesByCustomerId(int $customerId): LengthAwarePaginator
+    {
+        if(!$companies = Customer::find($customerId)
+            ->companies()->paginate(CompanyConstant::PER_PAGE)
+        ) {
+            throw new InvalidArgumentException('Клиент не найдена');
+        }
+
+        return $companies;
+    }
+
     public function update(Company $company): Company
     {
         if(!$company->update()) {
@@ -55,7 +67,7 @@ class CompanyRepository implements CompanyRepositoryInterface
     public function store(Company $company): Company
     {
         if(!$company->save()) {
-            throw new InvalidArgumentException('Ошибка при добавлении компании');
+            throw new InvalidArgumentException('Ошибка при создании компании');
         }
 
         return $company;

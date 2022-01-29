@@ -6,6 +6,11 @@
 
 @section('content')
     <div class="container-fluid">
+        @if(session('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session()->get('success') }}
+            </div>
+        @endif
         <div class="row">
             <div class="col-12">
                 <div class="invoice p-3 mb-3">

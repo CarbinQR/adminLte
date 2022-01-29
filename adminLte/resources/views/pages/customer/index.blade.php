@@ -7,6 +7,11 @@
 @section('content')
     <!-- Main content -->
     <section class="content">
+        @if(session('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session()->get('success') }}
+            </div>
+        @endif
         <div class="card w-100">
             <div class="card-header">
                 <h3 class="card-title">Клиенты</h3>

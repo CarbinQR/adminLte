@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Company;
 use App\Models\Customer;
-use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -16,7 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-         Customer::factory(10)->create();
-         Company::factory(10)->create();
+        Company::factory(11000)->create();
+        Customer::factory(15000)->create();
     }
 }

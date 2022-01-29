@@ -3,12 +3,13 @@
 namespace App\Repositories\Customer;
 
 use App\Constant\CustomerConstant;
+use App\Models\Company;
 use App\Models\Customer;
 use http\Exception\InvalidArgumentException;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 
-class CustomerRepository implements CustomerRepositoryInterface
+final class CustomerRepository implements CustomerRepositoryInterface
 {
     public function getAll(): LengthAwarePaginator
     {
@@ -62,9 +63,20 @@ class CustomerRepository implements CustomerRepositoryInterface
     public function store(Customer $customer): Customer
     {
         if(!$customer->save()) {
-            throw new InvalidArgumentException('Ошибка при добавлении клиента');
+            throw new InvalidArgumentException('Ошибка при создании клиента');
         }
 
         return $customer;
+    }
+
+    public function findCustomersByCompanyId(int $companyId): LengthAwarePaginator
+    {
+        if(!$customers = Company::find($companyId)
+            ->customers()->paginate(CustomerConstant::PER_PAGE)
+        ) {
+            throw new InvalidArgumentException('Компания не найдена');
+        }
+
+        return $customers;
     }
 }

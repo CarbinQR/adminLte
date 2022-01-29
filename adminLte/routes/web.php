@@ -16,14 +16,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('pages.home');
 });
+
+Route::get('/home', function () {
+    return view('pages.home');
+})->name('home');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::prefix('companies')->group(function () {
+Route::middleware('auth')->prefix('companies')->group(function () {
     Route::get('/', [CompanyController::class, 'index'])->name('companiesList');
     Route::delete('/destroy/{id}', [CompanyController::class, 'destroy'])->name('companyDestroy');
     Route::get('/edit/{id}', [CompanyController::class, 'edit'])->name('companyEdit');
@@ -34,7 +36,7 @@ Route::prefix('companies')->group(function () {
     Route::post('/attach-customer', [CompanyController::class, 'attachCustomers'])->name('companyAttachCustomers');
 });
 
-Route::prefix('customers')->group(function () {
+Route::middleware('auth')->prefix('customers')->group(function () {
     Route::get('/', [CustomerController::class, 'index'])->name('customersList');
     Route::delete('/destroy/{id}', [CustomerController::class, 'destroy'])->name('customerDestroy');
     Route::get('/edit/{id}', [CustomerController::class, 'edit'])->name('customerEdit');
