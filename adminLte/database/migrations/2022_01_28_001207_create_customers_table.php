@@ -17,8 +17,8 @@ class CreateCustomersTable extends Migration
             $table->id();
             $table->string('name', 255);
             $table->string('surname', 255);
-            $table->string('email', 255);
-            $table->string('phone_number', 255);
+            $table->string('email', 255)->unique();
+            $table->string('phone_number', 20);
         });
 
         Schema::create('company_customer', static function (Blueprint $table): void {

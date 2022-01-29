@@ -15,9 +15,11 @@ use App\Actions\Web\Company\UpdateCompanyAction;
 use App\Actions\Web\Company\UpdateCompanyRequest;
 use App\Actions\Web\Customer\GetCustomersListAction;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Company\AttachCustomersToCompanyValidationRequest;
+use App\Http\Requests\Company\StoreCompanyValidationRequest;
+use App\Http\Requests\Company\UpdateCompanyValidationRequest;
 
-class CompanyController extends Controller
+final class CompanyController extends Controller
 {
     public function index(
         GetCompaniesListAction $companyListAction,
@@ -45,7 +47,7 @@ class CompanyController extends Controller
 
     public function store(
         StoreCompanyAction $storeCompanyAction,
-        Request $request)
+        StoreCompanyValidationRequest $request)
     {
         $storeCompanyAction->execute(
             new StoreCompanyRequest(
@@ -86,7 +88,7 @@ class CompanyController extends Controller
     }
 
     public function update(
-        Request $request,
+        UpdateCompanyValidationRequest $request,
         UpdateCompanyAction $updateCompanyAction
     ) {
         $updatedCompany = $updateCompanyAction
@@ -120,7 +122,7 @@ class CompanyController extends Controller
 
     public function attachCustomers(
         AttachCustomersToCompanyAction $attachCustomersToCompanyAction,
-        Request $request
+        AttachCustomersToCompanyValidationRequest $request
     ) {
         $attachCustomersToCompanyAction->execute(
             new AttachCustomersToCompanyRequest(

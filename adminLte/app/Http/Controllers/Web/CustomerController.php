@@ -17,6 +17,8 @@ use App\Actions\Web\Customer\ShowCustomerRequest;
 use App\Actions\Web\Customer\StoreCustomerRequest;
 use App\Actions\Web\Customer\UpdateCustomerRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Company\StoreCustomerValidationRequest;
+use App\Http\Requests\Company\UpdateCustomerValidationRequest;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -52,7 +54,7 @@ class CustomerController extends Controller
      */
     public function store(
         StoreCustomerAction $storeCustomerAction,
-        Request $request)
+        StoreCustomerValidationRequest $request)
     {
         $storeCustomerAction->execute(
             new StoreCustomerRequest(
@@ -109,7 +111,7 @@ class CustomerController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(
-        Request $request,
+        UpdateCustomerValidationRequest $request,
         UpdateCustomerAction $updateCustomerAction
     ) {
         $updatedCustomer = $updateCustomerAction
@@ -119,8 +121,7 @@ class CustomerController extends Controller
                     $request->input('name'),
                     $request->input('surname'),
                     $request->input('email'),
-                    $request->input('phone_number'),
-                    $request->input('companiesIdArray')
+                    $request->input('phone_number')
                 )
             )->getResponse();
 
