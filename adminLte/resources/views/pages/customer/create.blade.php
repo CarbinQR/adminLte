@@ -16,11 +16,6 @@
             @endforeach
         @endif
 
-        @if(session('success'))
-            <div class="alert alert-success" role="alert">
-                {{ session()->get('success') }}
-            </div>
-        @endif
         <div class="card card-default">
             <div class="card-header">
                 <h3 class="card-title">Добавление клиента</h3>

@@ -7,7 +7,7 @@
 @section('content')
     <!-- Main content -->
     <section class="content">
-        @if(session('success'))
+        @if(session()->has('success'))
             <div class="alert alert-success" role="alert">
                 {{ session()->get('success') }}
             </div>
