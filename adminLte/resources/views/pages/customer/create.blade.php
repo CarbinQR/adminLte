@@ -8,6 +8,19 @@
     <form class="form-horizontal" method="POST" action="{{ route('customerStore') }}">
         @csrf
         @method('POST')
+        @if($errors->any())
+            @foreach($errors->all() as $error)
+                <div class="alert alert-danger" role="alert">
+                    {{ $error }}
+                </div>
+            @endforeach
+        @endif
+
+        @if(session('success'))
+            <div class="alert alert-success" role="alert">
+                {{ session()->get('success') }}
+            </div>
+        @endif
         <div class="card card-default">
             <div class="card-header">
                 <h3 class="card-title">Добавление клиента</h3>
@@ -17,7 +30,7 @@
                     <div class="col-md-4">
                         <label class="w-100">
                             Имя <span class="text-danger">*</span>
-                            <input class="form-control" type="text" name="name" required>
+                            <input class="form-control" type="text" name="name" required  value="{{ old('name') }}">
                         </label>
                     </div>
                 </div>
@@ -25,7 +38,7 @@
                     <div class="col-md-4">
                         <label class="w-100">
                             Фамилия <span class="text-danger">*</span>
-                            <input class="form-control" type="text" name="surname" required>
+                            <input class="form-control" type="text" name="surname" required value="{{ old('surname') }}">
                         </label>
                     </div>
                 </div>
@@ -33,7 +46,7 @@
                     <div class="col-md-4">
                         <label class="w-100">
                             Email <span class="text-danger">*</span>
-                            <input type="email" name="email" class="form-control" id="exampleInputEmail1" required>
+                            <input type="email" name="email" class="form-control" id="exampleInputEmail1" required value="{{ old('email') }}">
                         </label>
                     </div>
                 </div>

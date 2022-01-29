@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Company;
+namespace App\Http\Requests\Customer;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -11,8 +11,8 @@ final class StoreCustomerValidationRequest extends FormRequest
         return [
             'name' => 'required|string|min:2|max:255',
             'surname' => 'required|string|min:2|max:255',
-            'email' => 'required|unique|string|min:3|max:255',
-            'phone_number' => 'required|email|min:3|max:20',
+            'email' => 'required|unique:customers|string|min:3|max:255',
+            'phone_number' => 'required|numeric',
             'companiesIdArray' => 'array|nullable',
         ];
     }

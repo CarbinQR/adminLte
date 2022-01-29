@@ -104,7 +104,7 @@ final class CompanyController extends Controller
 
         return redirect()
             ->route('companyEdit', ['id' => $updatedCompany->id])
-            ->with(['success' => 'Запись обновлена']);
+            ->with([session('success') => 'Запись обновлена']);
     }
 
     public function destroy(
@@ -117,7 +117,7 @@ final class CompanyController extends Controller
             )
         );
 
-        return redirect()->back()->with(['succes' => 'Удалено']);
+        return redirect()->back()->with([session('success') => 'Удалено']);
     }
 
     public function attachCustomers(
@@ -131,6 +131,6 @@ final class CompanyController extends Controller
             )
         );
 
-        return redirect()->back()->with(['succes' => 'Пользователи добавлены']);
+        return redirect()->back()->with([session('success') => 'Пользователи добавлены']);
     }
 }
