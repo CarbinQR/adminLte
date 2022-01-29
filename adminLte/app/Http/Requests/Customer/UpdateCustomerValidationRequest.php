@@ -13,7 +13,7 @@ final class UpdateCustomerValidationRequest extends FormRequest
             'name' => 'required|string|min:3|max:255',
             'surname' => 'required|string|min:2|max:255',
             'email' => 'required|string|min:3|max:255',
-            'phone_number' => 'required|numeric',
+            'phone_number' => 'required|string|min:10|max:255',
         ];
     }
 }
