@@ -13,7 +13,6 @@ final class UpdateCompanyValidationRequest extends FormRequest
             'name' => 'required|string|min:3|max:255',
             'email' => 'required|string|min:3|max:255',
             'address' => 'required|string|min:3|max:255',
-            'customersIdsArray' => 'array|nullable',
         ];
     }
 }

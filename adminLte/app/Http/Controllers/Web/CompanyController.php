@@ -18,13 +18,18 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Company\AttachCustomersToCompanyValidationRequest;
 use App\Http\Requests\Company\StoreCompanyValidationRequest;
 use App\Http\Requests\Company\UpdateCompanyValidationRequest;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 final class CompanyController extends Controller
 {
     public function index(
         GetCompaniesListAction $companyListAction,
         GetCustomersListAction $customersListAction
-    ) {
+    ): Factory|View|Application
+    {
         $companiesList = $companyListAction
             ->execute()
             ->getResponse();
@@ -39,7 +44,7 @@ final class CompanyController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(): Factory|View|Application
     {
         return view('pages.company.create');
 
@@ -47,7 +52,7 @@ final class CompanyController extends Controller
 
     public function store(
         StoreCompanyAction $storeCompanyAction,
-        StoreCompanyValidationRequest $request)
+        StoreCompanyValidationRequest $request): RedirectResponse
     {
         $storeCompanyAction->execute(
             new StoreCompanyRequest(
@@ -64,41 +69,43 @@ final class CompanyController extends Controller
     public function show(
         ShowCompanyAction $showCompanyAction,
         string $id
-    ) {
+    ): Factory|View|Application
+    {
         $company = $showCompanyAction->execute(
             new ShowCompanyRequest(
-                (int) $id
+                (int)$id
             )
         )->getResponse();
 
-        return view('pages.company.show', [ 'company' => $company]);
+        return view('pages.company.show', ['company' => $company]);
     }
 
     public function edit(
         ShowCompanyAction $showCompanyAction,
         string $id
-    ) {
+    ): Factory|View|Application
+    {
         $company = $showCompanyAction->execute(
             new ShowCompanyRequest(
-                (int) $id
+                (int)$id
             )
         )->getResponse();
 
-        return view('pages.company.edit', [ 'company' => $company]);
+        return view('pages.company.edit', ['company' => $company]);
     }
 
     public function update(
         UpdateCompanyValidationRequest $request,
         UpdateCompanyAction $updateCompanyAction
-    ) {
+    ): RedirectResponse
+    {
         $updatedCompany = $updateCompanyAction
             ->execute(
                 new UpdateCompanyRequest(
-                    (int) $request->id,
+                    (int)$request->id,
                     $request->input('name'),
                     $request->input('email'),
-                    $request->input('address'),
-                    $request->input('customersIdsArray')
+                    $request->input('address')
                 )
             )->getResponse();
 
@@ -110,7 +117,8 @@ final class CompanyController extends Controller
     public function destroy(
         DestroyCompanyAction $destroyCompanyAction,
         string $id
-    ) {
+    ): RedirectResponse
+    {
         $destroyCompanyAction->execute(
             new DestroyCompanyRequest(
                 (int)$id
@@ -123,7 +131,8 @@ final class CompanyController extends Controller
     public function attachCustomers(
         AttachCustomersToCompanyAction $attachCustomersToCompanyAction,
         AttachCustomersToCompanyValidationRequest $request
-    ) {
+    ): RedirectResponse
+    {
         $attachCustomersToCompanyAction->execute(
             new AttachCustomersToCompanyRequest(
                 (int)$request->id,

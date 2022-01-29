@@ -10,7 +10,7 @@ final class AttachCustomersToCompanyValidationRequest extends FormRequest
     {
         return [
             'id' => 'required|integer|exists:companies,id',
-            'customersIdsArray' => 'array|nullable',
+            'customersIdsArray' => 'array|required',
         ];
     }
 }

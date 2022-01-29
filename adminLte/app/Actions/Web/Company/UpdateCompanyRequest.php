@@ -12,20 +12,16 @@ final class UpdateCompanyRequest
 
     private string $companyAddress;
 
-    private ?array $customersIdsArray;
-
     public function __construct(
         int $companyId,
         string $companyName,
         string $companyEmail,
         string $companyAddress,
-        ?array $customersIdsArray
     ) {
         $this->companyId = $companyId;
         $this->companyName = $companyName;
         $this->companyEmail = $companyEmail;
         $this->companyAddress = $companyAddress;
-        $this->customersIdsArray = $customersIdsArray;
     }
 
     public function getCompanyId(): int
@@ -46,10 +42,5 @@ final class UpdateCompanyRequest
     public function getCompanyAddress(): string
     {
         return $this->companyAddress;
-    }
-
-    public function getCustomersIdsArray(): ?array
-    {
-        return $this->customersIdsArray;
     }
 }

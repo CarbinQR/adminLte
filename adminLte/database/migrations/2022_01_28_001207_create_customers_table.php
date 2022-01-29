@@ -17,7 +17,7 @@ class CreateCustomersTable extends Migration
             $table->id();
             $table->string('name', 255);
             $table->string('surname', 255);
-            $table->string('email', 255)->unique();
+            $table->string('email', 255);
             $table->string('phone_number', 20);
         });
 
@@ -48,6 +48,6 @@ class CreateCustomersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('customers');
-        Schema::dropIfExists('company_client');
+        Schema::dropIfExists('company_customer');
     }
 }

@@ -14,4 +14,6 @@ interface CompanyRepositoryInterface
     public function findByIdWithCustomers(int $id): Builder;
     public function update(Company $company): Company;
     public function store(Company $company): Company;
+    public function findCompaniesByCustomerId(int $customerId): LengthAwarePaginator;
+
 }
